@@ -1,18 +1,19 @@
-import Head from 'next/head'
-import { useState } from 'react'
-import Image from 'next/image'
+import { useEffect, useState } from 'react'
+import { useS3Upload } from "next-s3-upload"
 import Card from "react-bootstrap/Card"
 import imageCompression from "browser-image-compression"
+import { s3 } from '../utils/s3-config'
 
 export default function Home() {
+  let { uploadToS3 } = useS3Upload();
   const [compressedLink, setCompressedLink] = useState("http://navparivartan.in/wp-content/uploads/2018/11/placeholder.png")
   const [originalLink, setOriginalLink] = useState("")
   const [originalImage, setOriginalImage] = useState("")
   const [clicked, setClicked] = useState(false)
   const [uploadImage, setUploadImage] = useState(false)
-  const [outputFileName, setOutputFileName] = useState("")
+  const [outputFileName, setOutputFileName] = useState("compress")
 
-  const handle = e => {
+  const handle = async (e) => {
     const imageFile = e.target.files[0]
     setOriginalLink(URL.createObjectURL(imageFile))
     setOriginalImage(imageFile)
@@ -30,20 +31,36 @@ export default function Home() {
     }
 
     if (options.maxSizeMB >= originalImage.size / 1024) {
-      alert("Image is too small, can't be Compressed!");
-      return 0;
+      alert("Image is too small, can't be Compressed!")
+      return 0
     }
 
     let output
-    imageCompression(originalImage, options).then(x => {
-      output = x;
-      const downloadLink = URL.createObjectURL(output)
-      setCompressedLink(downloadLink)
+    imageCompression(originalImage, options).then(async (x) => {
+      output = x
+      const downloadLink = URL.createObjectURL(output);
+      let { url } = await uploadToS3(output)
+      setCompressedLink(url)
     });
 
     setClicked(true)
     return 1;
   }
+
+  useEffect(() => {
+    var bucketParams = {
+      Bucket : 'dev-image-list',
+    };
+    
+    // Call S3 to obtain a list of the objects in the bucket
+    s3.listObjects(bucketParams, function(err, data) {
+      if (err) {
+        console.log("Error", err);
+      } else {
+        console.log("Success", data);
+      }
+    });
+  }, [])
 
   return (
     <div className="m-5">
