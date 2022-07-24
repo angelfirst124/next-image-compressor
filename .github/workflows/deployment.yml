@@ -1,0 +1,35 @@
+name: Development workflow
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Development Code
+        uses: actions/checkout@v2
+      - name: Use Node.js 16.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16.x
+      - name: 'Create env file'
+        run: |
+          touch .env
+          echo S3_UPLOAD_KEY=${{ secrets.S3_UPLOAD_KEY }} >> .env
+          echo S3_UPLOAD_SECRET=${{ secrets.S3_UPLOAD_SECRET }} >> .env
+          echo S3_UPLOAD_BUCKET=${{ secrets.S3_UPLOAD_BUCKET }} >> .env
+          echo S3_UPLOAD_REGION=${{ secrets.S3_UPLOAD_REGION }} >> .env
+          echo DYNAMO_DB=${{ secrets.DYNAMO_DB }} >> .env
+          cat .env
+      - run: npm install
+      - run: npm run build --if-present
+      - name: Deploy to Heroku
+        uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          args: deploy --dir=build --prod
+          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+          heroku_app_name: 'fullstack-code-challenge'
+          heroku_email: 'denishikawa1226@gmail.com'
