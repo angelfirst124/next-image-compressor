@@ -1,29 +1,31 @@
 {
-  "name": "next-image-compressor",
+  "name": "code-challenge-nextjs",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "start": "next start"
   },
   "dependencies": {
-    "@aws-sdk/abort-controller": "^3.127.0",
-    "@aws-sdk/client-s3": "^3.131.0",
-    "aws-sdk": "^2.1180.0",
+    "axios": "^0.21.1",
     "bootstrap": "^5.2.0",
     "browser-image-compression": "^2.0.0",
-    "multer": "^1.4.5-lts.1",
-    "multer-s3": "^3.0.1",
-    "next": "12.2.2",
+    "fs": "^0.0.1-security",
+    "next": "11.1.0",
     "next-s3-upload": "^0.2.2",
-    "react": "18.2.0",
+    "path": "^0.12.7",
+    "react": "17.0.2",
     "react-bootstrap": "^2.4.0",
-    "react-dom": "18.2.0"
+    "react-dom": "17.0.2",
+    "sass": "^1.54.0"
   },
   "devDependencies": {
-    "eslint": "8.20.0",
-    "eslint-config-next": "12.2.2"
+    "@types/node": "^16.7.1",
+    "@types/react": "^17.0.19",
+    "autoprefixer": "^10.3.2",
+    "postcss": "^8.3.6",
+    "tailwindcss": "^2.2.7",
+    "typescript": "^4.3.5"
   }
 }
