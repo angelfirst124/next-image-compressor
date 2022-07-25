@@ -142,7 +142,7 @@ const Page: NextPage = () => {
         </div>
       </div>
     </div>
-    <h2 className="mt-10 text-xl font-semibold">Search Compressed Images</h2>
+    <h2 className="mt-10 text-xl font-semibold text-center">Search Compressed Images</h2>
     <Search 
       images={images}
     />
