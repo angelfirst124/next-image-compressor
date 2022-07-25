@@ -56,7 +56,7 @@ export default function Search({ images }) {
 
   return (
     <div
-      className="container mt-5"
+      className="container mt-5 d-flex flex-column"
       ref={searchRef}
     >
       <input
@@ -67,22 +67,20 @@ export default function Search({ images }) {
         type='text'
         value={query}
       />
-      { results?.length > 0 && (
-        <div>
-          {results.map((image, index) => (
+      { results?.length > 0 && 
+          results.map((image, index) => (
             <Link href={`/images/${image.name.toLowerCase()}`} key={image.uri + index}>
-                <a className='flex items-center p-5 mt-5 text-gray-800 border border-gray-200 rounded-lg shadow-sm hover:border-blue-600 focus:border-blue-600 focus:ring focus:ring-blue-200 focus:outline-none'>
+              <a className='d-flex justify-content-between p-5 mt-5 text-gray-800 border border-gray-200 rounded-lg shadow-sm hover:border-blue-600 focus:border-blue-600 focus:ring focus:ring-blue-200 focus:outline-none'>
                 <span>
                     {image.name}
                 </span>
                 <span className='ml-auto text-gray-500'>
                     {image.size}
                 </span>
-                </a>
+              </a>
             </Link>
-          ))}
-        </div>
-      ) }
+          ))
+      }
     </div>
   )
 }
