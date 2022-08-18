@@ -1,10 +1,5 @@
 # Full-stack Coding Challenge
 
-## Author
-
-### Name: Denis Nishikawa
-### Email: denishikawa1226@gmail.com
-
 ## Getting Started
 
 The app is designed to work out of the box.
